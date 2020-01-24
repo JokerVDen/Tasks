@@ -1,0 +1,15 @@
+{
+  "name": "joker-v-den/tasks",
+  "description": "Tasks",
+  "type": "project",
+  "require": {
+    "illuminate/database": "^6.12",
+    "particle/validator": "^2.3",
+    "izniburak/router": "^1.5",
+    "jenssegers/blade": "^1.2"
+  },
+  "require-dev": {
+    "raulfraile/ladybug": "^1.0"
+  },
+  "license": "GNU General Public License"
+}
