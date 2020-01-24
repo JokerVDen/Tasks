@@ -13,7 +13,6 @@
   },
   "autoload": {
     "files": [
-      "config/params.php",
       "config/init.php"
     ],
     "psr-4": {
