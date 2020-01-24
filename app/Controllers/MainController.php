@@ -27,6 +27,7 @@ class MainController
      * @return string
      */
     public function index() {
-        return "asdfasdf";
+
+        return "Here we are!";
     }
 }

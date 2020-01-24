@@ -7,9 +7,6 @@ use Illuminate\Database\Query\Builder;
 
 abstract class BaseRepository
 {
-    public $sortBy = 'status';
-    public $sortOrder = 'desc';
-
     /** @var Model|Builder */
     protected $model;
 
@@ -27,7 +24,6 @@ abstract class BaseRepository
     public function all()
     {
         return $this->model
-            ->orderBy($this->sortBy, $this->sortOrder)
             ->get();
     }
 
@@ -39,7 +35,6 @@ abstract class BaseRepository
     {
         return $this
             ->model
-            ->orderBy($this->sortBy, $this->sortOrder)
             ->paginate($paginate);
     }
 

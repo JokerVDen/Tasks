@@ -9,7 +9,7 @@
     "jenssegers/blade": "^1.2"
   },
   "require-dev": {
-    "raulfraile/ladybug": "^1.0"
+    "symfony/var-dumper": "^5.0"
   },
   "autoload": {
     "files": [

@@ -1,9 +1,13 @@
 <?php
 
 use Buki\Router;
+use App\Models\Database;
 
+$params = getParams();
 
-$params = require_once ROOT.'/config/params.php';
+//Initialize Illuminate Database Connection
+new Database($params);
+
 // Routing
 
 // For right routing with izniburak/router
