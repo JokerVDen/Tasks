@@ -8,7 +8,7 @@ use App\Repositories\TaskRepository;
  * Class MainController
  * @package App\Controllers
  */
-class MainController
+class MainController extends CoreController
 {
     /**
      * @var TaskRepository
@@ -28,6 +28,6 @@ class MainController
      */
     public function index() {
 
-        return "Here we are!";
+        return view('main.index');
     }
 }

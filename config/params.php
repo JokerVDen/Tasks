@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'db' => require_once CONFIG.'/db.php',
-    'routes' => require_once CONFIG.'/route.php',
+    'db'     => require CONFIG . '/db.php',
+    'routes' => require CONFIG . '/route.php',
+    'blade'  => require CONFIG . '/blade.php'
 ];
