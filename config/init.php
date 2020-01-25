@@ -6,3 +6,5 @@ if (!defined('APP')) define('APP', ROOT . '/app');
 if (!defined('CORE')) define('CORE', ROOT . '/resources');
 if (!defined('ROUTES')) define('ROUTES', ROOT . '/routes');
 if (!defined('CONFIG')) define('CONFIG', ROOT . '/config');
+
+if (!defined('DEV')) define('DEV', false);
