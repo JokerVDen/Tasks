@@ -9,7 +9,7 @@ class GuestMiddleware
     public function handle()
     {
         if(!auth()) {
-            return view('errors.forbidden');
+            return redirect('/login');
         }
 
         return true;

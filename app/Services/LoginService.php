@@ -48,6 +48,12 @@ class LoginService
         return $validator;
     }
 
+    /**
+     * Login user
+     *
+     * @param $user
+     * @return bool
+     */
     public function login($user)
     {
         $admin = [
@@ -66,6 +72,9 @@ class LoginService
         return true;
     }
 
+    /**
+     * Logout
+     */
     public function logout()
     {
         $session = Session::getInstance();

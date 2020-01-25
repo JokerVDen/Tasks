@@ -23,6 +23,7 @@ class Session implements SessionProvider
     {
     }
 
+
     /**
      * Returns THE instance of 'Session'.
      * The session is automatically initialized if it wasn't.
@@ -45,7 +46,7 @@ class Session implements SessionProvider
      * (Re)starts the session.
      *
      * @return bool TRUE if the session has been initialized, else FALSE.
-     **/
+     */
 
     public function startSession()
     {
@@ -99,10 +100,10 @@ class Session implements SessionProvider
 
 
     /**
-     *    Destroys the current session.
+     * Destroys the current session.
      *
-     * @return    bool    TRUE is session has been deleted, else FALSE.
-     **/
+     * @return bool TRUE is session has been deleted, else FALSE.
+     */
 
     public function destroy()
     {
@@ -116,6 +117,12 @@ class Session implements SessionProvider
         return FALSE;
     }
 
+    /**
+     * Get by key
+     *
+     * @param $key
+     * @return mixed|null
+     */
     public function get($key)
     {
         if (isset($_SESSION[$key])) {
@@ -124,6 +131,12 @@ class Session implements SessionProvider
         return null;
     }
 
+    /**
+     * Set by key
+     *
+     * @param $key
+     * @param $value
+     */
     public function set($key, $value)
     {
         $_SESSION[$key] = $value;

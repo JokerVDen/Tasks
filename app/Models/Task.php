@@ -12,14 +12,23 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Task extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
         'name',
         'email',
         'task',
         'performed',
+        'status',
     ];
 
-    public function getAllowedOrders() {
+    /**
+     * Returns fields of table that are allow for order
+     *
+     * @return array
+     */
+    public function getAllowedForOrder()
+    {
         $allowedOrders = [
             'name',
             'email',

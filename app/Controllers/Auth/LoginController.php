@@ -1,9 +1,10 @@
 <?php
 
 
-namespace App\Controllers;
+namespace App\Controllers\Auth;
 
 
+use App\Controllers\CoreController;
 use App\Services\LoginService;
 
 class LoginController extends CoreController
@@ -23,9 +24,13 @@ class LoginController extends CoreController
      */
     public function index()
     {
-        return view('auth.login');
+        $pageTitle = "Вход";
+        return view('auth.login', compact('pageTitle'));
     }
 
+    /**
+     * Login as admin
+     */
     public function login()
     {
         $validateResult = $this->loginService->checkInputForLogin();
@@ -42,6 +47,9 @@ class LoginController extends CoreController
         return redirect('/');
     }
 
+    /**
+     * Logout
+     */
     public function logout()
     {
         $this->loginService->logout();

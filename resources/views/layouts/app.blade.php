@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title></title>
+    <title>@yield('page-title')</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -58,7 +58,6 @@
 
                                 <form id="logout-form" action="{{ url('/logout') }}" method="POST"
                                       style="display: none;">
-                                    @csrf
                                 </form>
                             </div>
                         </li>

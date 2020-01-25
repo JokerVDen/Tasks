@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('page-title', $pageTitle)
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -8,7 +8,7 @@
                 @include('includes.flashes', compact('errors'))
                 <div class="card">
                     <div class="card-body">
-                        <h2>Создание задания</h2>
+                        <h2>Создание задачи</h2>
                         <br>
                         <form action="{{ url('/task/store') }}" method="post" class="form-new-task">
                             {!! csrf_field() !!}
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <br><br>
-                <h3>Список заданий</h3>
+                <h3>Список задач</h3>
                 <div class="card">
                     <div class="card-body">
                         <form action="{{ url('/') }}" method="GET">
@@ -69,15 +69,20 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     Задача № {{$task->id}}&nbsp;&nbsp;
-                                    @if ($task->performed)
-                                        <span class="badge badge-success">Обработана</span>
+                                    @if ($task->status)
+                                        <span class="badge badge-success">Выполнено</span>
                                     @else
-                                        <span class="badge badge-secondary">Не обработана</span>
+                                        <span class="badge badge-secondary">Не выполнено</span>
+                                    @endif
+                                    @if ($task->performed)
+                                        <span class="badge badge-info">Отредактировано Администратором</span>
                                     @endif
                                 </div>
-                                <div class="col-md-6 text-right">
-                                    <a href="" class="btn btn-primary">Редактировать</a>
-                                </div>
+                                @if(auth())
+                                    <div class="col-md-6 text-right">
+                                        <a href="{{ url('/task/edit/'.$task->id) }}" class="btn btn-primary">Редактировать</a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="card-body">

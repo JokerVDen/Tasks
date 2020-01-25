@@ -118,7 +118,12 @@ if (!function_exists('back')) {
         if ($errors) {
             $session->errors = $errors;
         }
+        if(!isset($_SERVER['HTTP_REFERER'])) {
+            redirect('/');
+            exit;
+        }
         header('Location: ' . $_SERVER['HTTP_REFERER'] . $moveOnPage);
+        exit;
     }
 }
 
@@ -128,6 +133,7 @@ if (!function_exists('redirect')) {
     {
         $url = url($uri);
         header('Location: ' . $url);
+        exit;
     }
 }
 

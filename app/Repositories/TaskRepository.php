@@ -24,16 +24,17 @@ class TaskRepository extends BaseRepository
      *
      * @param int $perPage
      * @param int $currentPage
-     * @param string $orderBy
-     * @param string $direction
+     * @param array $order
      * @return \Illuminate\Support\Collection
      */
-    public function getAllWithOrder($perPage = 3, $currentPage = 1, $orderBy = 'performed', $direction = 'asc')
+    public function getAllWithOrder($perPage = 3, $currentPage = 1, array $order = [])
     {
+        $orderBy = $order['orderBy'] ?? 'performed';
+        $direction = $order['direction'] ?? 'asc';
         $offset = ($currentPage - 1) * $perPage;
 
         $tasks = $this->model
-            ->select(['id', 'name', 'email', 'task', 'performed'])
+            ->select(['id', 'name', 'email', 'task', 'status', 'performed'])
             ->orderBy($orderBy, $direction)
             ->limit($perPage)
             ->offset($offset)
@@ -52,37 +53,6 @@ class TaskRepository extends BaseRepository
         $count = $this->model
             ->count();
         return $count;
-    }
-
-    /**
-     * Get array with paginate data or false
-     *
-     * @param $perPage
-     * @param $currentPage
-     * @return array|bool
-     */
-    public function getPaginate($perPage, $currentPage)
-    {
-        $countItems = $this->countAll();
-        $countPages = intdiv($countItems, $perPage);
-        $countPages = $countPages * $perPage < $countItems ? $countPages + 1 : $countPages;
-
-        if ($countPages < $currentPage)
-            return false;
-
-        $back = $currentPage > 1 && $countPages > 1 ? $currentPage - 1 : false;
-        $next = $currentPage + 1 <= $countPages ? $currentPage + 1 : false;
-
-        $paginate = [
-            'isPaginated' => $countPages > 1,
-            'countItems'  => $countItems,
-            'countPages'  => $countPages,
-            'current'     => $currentPage,
-            'back'        => $back,
-            'next'        => $next,
-        ];
-
-        return $paginate;
     }
 
 }

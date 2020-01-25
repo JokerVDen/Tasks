@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Repositories\TaskRepository;
 use App\Services\TaskService;
 use App\Session;
 
@@ -12,10 +11,6 @@ use App\Session;
  */
 class TaskController extends CoreController
 {
-    /**
-     * @var TaskRepository
-     */
-    private $taskRepository;
     /**
      * @var TaskService
      */
@@ -30,7 +25,6 @@ class TaskController extends CoreController
      */
     public function __construct()
     {
-        $this->taskRepository = new TaskRepository();
         $this->taskService = new TaskService();
         $this->session = Session::getInstance();
 
@@ -50,21 +44,22 @@ class TaskController extends CoreController
             return abort();
         }
 
-        $order = $this->taskService->getOrderFromRequest();
+        $order = $this->taskService->getRightOrderFromRequest();
         if (!$order) {
             return abort();
         }
 
-        $paginate = $this->taskRepository->getPaginate($perPage, $currentPage);
+        $paginate = $this->taskService->getPaginate($perPage, $currentPage);
         if (!$paginate) {
             return abort();
         }
         $orderForPaginate = $this->taskService->getOrderForPaginate($order);
 
-        $tasks = $this->taskRepository->getAllWithOrder($perPage, $currentPage, $order['orderBy'], $order['direction']);
+        $tasks = $this->taskService->getAllWithOrder($perPage, $currentPage, $order);
 
-        $ordersForSelect = $this->taskService->getOrdersForSelect();
+        $ordersForSelect = $this->taskService->getListOrdersForSelect();
 
+        $pageTitle = "Список задач";
         return view('main.index', compact([
             'perPage',
             'tasks',
@@ -72,18 +67,21 @@ class TaskController extends CoreController
             'order',
             'orderForPaginate',
             'ordersForSelect',
+            'pageTitle'
         ]));
     }
 
-
+    /**
+     * Store new task
+     */
     public function store()
     {
-        $validateResult = $this->taskService->checkInputForNewTask();
+        $validateResult = $this->taskService->checkInputForNewTask($_POST);
         if ($validateResult->isNotValid()) {
             back(true, $validateResult->getMessages());
         }
 
-        $this->taskRepository->create($validateResult->getValues());
+        $this->taskService->createTask($validateResult->getValues());
 
         set_success('Данные сохранены');
         return back();
