@@ -4,6 +4,37 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                @php $errors=errors() @endphp
+                @include('includes.flashes', compact('errors'))
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Создание задания</h2>
+                        <br>
+                        <form action="{{ url('/task/store') }}" method="post" class="form-new-task">
+                            {!! csrf_field() !!}
+                            <div class="form-group">
+                                <label for="name">Имя пользователя</label>
+                                <input type="text" class="form-control @if(isset($errors['name'])) is-invalid @endif"
+                                       id="name" name="name"
+                                       placeholder="Введите ваше имя" value="{{ old('name') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control @if(isset($errors['email'])) is-invalid @endif"
+                                       id="email" name="email" value="{{ old('email') }}"
+                                       placeholder="Введите ваш e-mail">
+                            </div>
+                            <div class="form-group">
+                                <label for="task">Задача</label>
+                                <textarea class="form-control @if(isset($errors['task'])) is-invalid @endif" id="task"
+                                          name="task" rows="3">{{ old('task') }}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Создать</button>
+                        </form>
+                    </div>
+                </div>
+                <br><br>
+                <h3>Список заданий</h3>
                 <div class="card">
                     <div class="card-body">
                         <form action="{{ url('/') }}" method="GET">
@@ -11,7 +42,8 @@
                                 <div class="col">
                                     <select class="form-control" name="orderBy" id="orderBy">
                                         @foreach($ordersForSelect as $value => $title)
-                                            <option value="{{ $value }}" @if($value == $order['orderBy']) selected @endif>{{ $title }}</option>
+                                            <option value="{{ $value }}"
+                                                    @if($value == $order['orderBy']) selected @endif>{{ $title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -104,26 +136,6 @@
                         </ul>
                     </nav>
                 @endif
-
-                <form action="{{ url('add-task') }}" method="post">
-                    {!! csrf_field() !!}
-                    <div class="form-group">
-                        <label for="name">Имя пользователя</label>
-                        <input type="text" class="form-control" id="name" name="name"
-                               placeholder="Введите ваше имя">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control"
-                               id="email" name="email"
-                               placeholder="Введите ваш e-mail">
-                    </div>
-                    <div class="form-group">
-                        <label for="task">Задача</label>
-                        <textarea class="form-control" id="task" name="task" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Создать</button>
-                </form>
             </div>
         </div>
     </div>

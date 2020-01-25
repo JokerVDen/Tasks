@@ -41,7 +41,7 @@
                     <!-- Authentication Links -->
                     @if(true)
                         <li class="nav-item">
-                            <a class="nav-link" href="">Войти</a>
+                            <a class="nav-link" href="{{ url('/login') }}">Войти</a>
                         </li>
                     @else
                         <li class="nav-item dropdown">

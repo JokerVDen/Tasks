@@ -1,7 +1,15 @@
 <?php
 
+use App\Session;
 use Buki\Router;
 use App\Models\Database;
+
+
+$session = Session::getInstance();
+if ($session->old_already_get) {
+    unset($session->old_already_get);
+    unset($session->old_input);
+}
 
 $params = getParams();
 
@@ -13,5 +21,5 @@ new Database($params);
 // For right routing with izniburak/router
 $_SERVER['PHP_SELF'] = "";
 $router = new Router($params['routes']);
-include_once ROUTES."/web.php";
+include_once ROUTES . "/web.php";
 $router->run();

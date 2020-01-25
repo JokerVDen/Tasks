@@ -1,5 +1,6 @@
 <?php
 
+use App\Session;
 use Jenssegers\Blade\Blade;
 
 function getParams()
@@ -43,6 +44,7 @@ if (!function_exists('view')) {
      */
     function view($view = null, $data = [], $mergeData = [])
     {
+
         $params = getParams();
         $paramsBlade = $params['blade'];
         $blade = new Blade($paramsBlade['views'], $paramsBlade['cache']);
@@ -58,14 +60,13 @@ if (!function_exists('view')) {
 if (!function_exists('url')) {
     function url($uri, $args = [])
     {
+        $uri = trim($uri, '/');
         $query = "";
         if ($args && is_array($args)) {
             $query = "?" . http_build_query($args);
         }
 
         $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]/";
-        if ($uri == '/') return $url . $query;
-
 
         return $url . $uri . $query;
     }
@@ -92,11 +93,11 @@ if (!function_exists('url_for_paginate')) {
 if (!function_exists('csrf_field')) {
     function csrf_field()
     {
-        $sessionProvider = new EasyCSRF\NativeSessionProvider();
+        $sessionProvider = Session::getInstance();
         $easyCSRF = new EasyCSRF\EasyCSRF($sessionProvider);
 
         $token = $easyCSRF->generate('_csrf');
-        return '<input type="hidden" name="token" value="' . $token . '">';
+        return '<input type="hidden" name="_csrf" value="' . $token . '">';
     }
 }
 
@@ -104,5 +105,67 @@ if (!function_exists('abort')) {
     function abort()
     {
         return view('errors.404');
+    }
+}
+
+if (!function_exists('back')) {
+    function back($withOldValues = false, $errors = [], $moveOnPage = "")
+    {
+        $session = Session::getInstance();
+        if ($withOldValues) {
+            $session->old_input = $_POST;
+        }
+        if ($errors) {
+            $session->errors = $errors;
+        }
+        header('Location: ' . $_SERVER['HTTP_REFERER'] . $moveOnPage);
+    }
+}
+
+if (!function_exists('old')) {
+    function old($input, $default = "")
+    {
+        $session = Session::getInstance();
+        if ($old = $session->old_input) {
+            if (isset($old[$input])) {
+                $value = $old[$input];
+                unset($_SESSION['old_input'][$input]);
+                $session->old_already_get = 1;
+                return $value;
+            }
+        }
+        return $default;
+    }
+}
+
+if (!function_exists('errors')) {
+    function errors()
+    {
+        $session = Session::getInstance();
+        if ($errors = $session->errors) {
+            unset($session->errors);
+            return $errors;
+        }
+        return [];
+    }
+}
+
+if (!function_exists('setSuccess')) {
+    function setSuccess(string $message)
+    {
+        $session = Session::getInstance();
+        $session->success = $message;
+    }
+}
+
+if (!function_exists('getSuccess')) {
+    function getSuccess()
+    {
+        $session = Session::getInstance();
+        if ($success = $session->success) {
+            unset($session->success);
+            return $success;
+        }
+        return false;
     }
 }

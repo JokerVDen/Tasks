@@ -54,6 +54,13 @@ class TaskRepository extends BaseRepository
         return $count;
     }
 
+    /**
+     * Get array with paginate data or false
+     *
+     * @param $perPage
+     * @param $currentPage
+     * @return array|bool
+     */
     public function getPaginate($perPage, $currentPage)
     {
         $countItems = $this->countAll();

@@ -28,3 +28,7 @@ body {
     background-color: #f5f5f5;
     flex: 0 0 auto;
 }
+
+.form-new-task {
+    margin-bottom: 20px;
+}

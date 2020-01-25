@@ -34,21 +34,22 @@ class MainController extends CoreController
      *
      * @return \Illuminate\Contracts\View\View|\Jenssegers\Blade\Blade
      */
-    public function index() {
+    public function index()
+    {
         $perPage = 3;
 
         $currentPage = $this->taskService->getPageFromRequest();
-        if(!$currentPage) {
+        if (!$currentPage) {
             return abort();
         }
 
         $order = $this->taskService->getOrderFromRequest();
-        if(!$order) {
+        if (!$order) {
             return abort();
         }
 
         $paginate = $this->taskRepository->getPaginate($perPage, $currentPage);
-        if(!$paginate) {
+        if (!$paginate) {
             return abort();
         }
         $orderForPaginate = $this->taskService->getOrderForPaginate($order);
@@ -65,5 +66,19 @@ class MainController extends CoreController
             'orderForPaginate',
             'ordersForSelect',
         ]));
+    }
+
+
+    public function store()
+    {
+        $validateResult = $this->taskService->checkInputForNewTask();
+        if ($validateResult->isNotValid()) {
+            back(true, $validateResult->getMessages());
+        }
+
+        $this->taskRepository->create($validateResult->getValues());
+
+        setSuccess('Данные сохранены');
+        return back();
     }
 }
