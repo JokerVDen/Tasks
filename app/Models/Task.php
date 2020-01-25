@@ -15,7 +15,16 @@ class Task extends Model
     protected $fillable = [
         'name',
         'email',
-        'tasl',
+        'task',
         'performed',
     ];
+
+    public function getAllowedOrders() {
+        $allowedOrders = [
+            'name',
+            'email',
+            'performed',
+        ];
+        return $allowedOrders;
+    }
 }

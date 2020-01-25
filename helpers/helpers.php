@@ -55,21 +55,54 @@ if (!function_exists('view')) {
     }
 }
 
-if (!function_exists('asset')) {
-    function asset($path)
+if (!function_exists('url')) {
+    function url($uri, $args = [])
     {
+        $query = "";
+        if ($args && is_array($args)) {
+            $query = "?" . http_build_query($args);
+        }
+
         $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]/";
-        if ($path == '/') return $url;
-        return $url . $path;
+        if ($uri == '/') return $url . $query;
+
+
+        return $url . $uri . $query;
     }
 }
 
-if(!function_exists('csrf_field')) {
-    function csrf_field() {
+if (!function_exists('url_for_paginate')) {
+    function url_for_paginate($uri, $page = 1, $order = [])
+    {
+        $args = $order;
+        $args['page'] = $page;
+
+        if (isset($args['orderBy']) && trim($args['orderBy']) == "") {
+            unset($args['orderBy']);
+        }
+
+        if (isset($args['direction']) && trim($args['direction']) == "") {
+            unset($args['direction']);
+        }
+        return url($uri, $args);
+    }
+}
+
+
+if (!function_exists('csrf_field')) {
+    function csrf_field()
+    {
         $sessionProvider = new EasyCSRF\NativeSessionProvider();
         $easyCSRF = new EasyCSRF\EasyCSRF($sessionProvider);
 
         $token = $easyCSRF->generate('_csrf');
-        return '<input type="hidden" name="token" value="'.$token.'">';
+        return '<input type="hidden" name="token" value="' . $token . '">';
+    }
+}
+
+if (!function_exists('abort')) {
+    function abort()
+    {
+        return view('errors.404');
     }
 }
