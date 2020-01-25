@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5824e5e12b12540ed2f5d473dc92a3e9",
+    "content-hash": "b2c192f2c9f6e91c714aa8889fd3daa3",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -72,6 +72,45 @@
                 "string"
             ],
             "time": "2019-10-30T19:59:35+00:00"
+        },
+        {
+            "name": "gilbitron/easycsrf",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gilbitron/EasyCSRF.git",
+                "reference": "6927d540193f09621c0fb65140c2963992f5fd6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gilbitron/EasyCSRF/zipball/6927d540193f09621c0fb65140c2963992f5fd6b",
+                "reference": "6927d540193f09621c0fb65140c2963992f5fd6b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EasyCSRF\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gilbert Pellegrom",
+                    "email": "gilbert@pellegrom.me"
+                }
+            ],
+            "description": "A simple, standalone CSRF protection library",
+            "time": "2015-03-19T14:44:39+00:00"
         },
         {
             "name": "illuminate/container",

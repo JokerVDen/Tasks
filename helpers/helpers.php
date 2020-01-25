@@ -63,3 +63,13 @@ if (!function_exists('asset')) {
         return $url . $path;
     }
 }
+
+if(!function_exists('csrf_field')) {
+    function csrf_field() {
+        $sessionProvider = new EasyCSRF\NativeSessionProvider();
+        $easyCSRF = new EasyCSRF\EasyCSRF($sessionProvider);
+
+        $token = $easyCSRF->generate('_csrf');
+        return '<input type="hidden" name="token" value="'.$token.'">';
+    }
+}
