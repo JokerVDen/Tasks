@@ -4,12 +4,13 @@ namespace App\Controllers;
 
 use App\Repositories\TaskRepository;
 use App\Services\TaskService;
+use App\Session;
 
 /**
  * Class MainController
  * @package App\Controllers
  */
-class MainController extends CoreController
+class TaskController extends CoreController
 {
     /**
      * @var TaskRepository
@@ -19,6 +20,10 @@ class MainController extends CoreController
      * @var TaskService
      */
     private $taskService;
+    /**
+     * @var Session
+     */
+    private $session;
 
     /**
      * MainController constructor.
@@ -27,6 +32,8 @@ class MainController extends CoreController
     {
         $this->taskRepository = new TaskRepository();
         $this->taskService = new TaskService();
+        $this->session = Session::getInstance();
+
     }
 
     /**
@@ -78,7 +85,7 @@ class MainController extends CoreController
 
         $this->taskRepository->create($validateResult->getValues());
 
-        setSuccess('Данные сохранены');
+        set_success('Данные сохранены');
         return back();
     }
 }

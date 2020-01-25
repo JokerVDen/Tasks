@@ -66,12 +66,19 @@
                 @forelse($tasks as $task)
                     <div class="card">
                         <div class="card-header">
-                            Задача № {{$task->id}}&nbsp;&nbsp;
-                            @if ($task->performed)
-                                <span class="badge badge-success">Обработана</span>
-                            @else
-                                <span class="badge badge-primary">Не обработана</span>
-                            @endif
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Задача № {{$task->id}}&nbsp;&nbsp;
+                                    @if ($task->performed)
+                                        <span class="badge badge-success">Обработана</span>
+                                    @else
+                                        <span class="badge badge-secondary">Не обработана</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <a href="" class="btn btn-primary">Редактировать</a>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="form-group">

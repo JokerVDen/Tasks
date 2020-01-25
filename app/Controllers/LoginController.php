@@ -6,7 +6,7 @@ namespace App\Controllers;
 
 use App\Services\LoginService;
 
-class LoginController
+class LoginController extends CoreController
 {
     /**
      * @var LoginService
@@ -18,6 +18,9 @@ class LoginController
         $this->loginService = new LoginService();
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Jenssegers\Blade\Blade
+     */
     public function index()
     {
         return view('auth.login');
@@ -27,7 +30,21 @@ class LoginController
     {
         $validateResult = $this->loginService->checkInputForLogin();
         if ($validateResult->isNotValid()) {
-            back(true, $validateResult->getMessages());
+            return back(true, $validateResult->getMessages());
         }
+
+        $result = $this->loginService->login($validateResult->getValues());
+        if (!$result) {
+            unset($_POST['password']);
+            return back(true, ['Не верно введены данные, попробуйте снова!']);
+        }
+
+        return redirect('/');
+    }
+
+    public function logout()
+    {
+        $this->loginService->logout();
+        return redirect('/');
     }
 }

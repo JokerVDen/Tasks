@@ -13,10 +13,10 @@
                     <form method="POST" action="{{ url('/login') }}">
                         {!! csrf_field() !!}
                         <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">Email</label>
+                            <label for="Login" class="col-sm-4 col-form-label text-md-right">Login</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @if(isset($errors['email'])) is-invalid @endif" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="login" type="text" class="form-control @if(isset($errors['login'])) is-invalid @endif" name="login" value="{{ old('login') }}" required autofocus>
                             </div>
                         </div>
 
@@ -28,16 +28,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        Запомнить
-                                    </label>
-                                </div>
-                            </div>
+                        <div class="form-group row justify-content-center">
+                            <button class="btn btn-primary" type="submit">Войти</button>
                         </div>
                     </form>
                 </div>

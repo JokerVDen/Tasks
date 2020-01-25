@@ -2,9 +2,13 @@
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <ul>
             @forelse($errors as $inputErrors)
-                @foreach($inputErrors as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
+                @if(is_string($inputErrors))
+                    <li>{{ $inputErrors }}</li>
+                @else
+                    @foreach($inputErrors as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                @endif
             @empty
             @endforelse
         </ul>
@@ -14,7 +18,7 @@
     </div>
 @endif
 
-@php $successMessage = getSuccess() @endphp
+@php $successMessage = get_success() @endphp
 @if ($successMessage)
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ $successMessage }}

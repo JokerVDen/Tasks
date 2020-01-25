@@ -4,8 +4,9 @@
 namespace App\Services;
 
 
-use Particle\Validator\Rule\Email;
+use App\Session;
 use Particle\Validator\Rule\NotEmpty;
+use Particle\Validator\Rule\Required;
 use Particle\Validator\Validator;
 
 class LoginService
@@ -28,18 +29,46 @@ class LoginService
      *
      * @return Validator
      */
-    private function getValidatorForLogin() {
+    private function getValidatorForLogin()
+    {
         $validator = new Validator;
 
-        $validator->required('email')->email();
+        $validator->required('login');
+        $validator->required('password');
 
         $validator->overwriteMessages([
-            'email' => [
-                Email::INVALID_FORMAT => 'Email неверен!',
-                NotEmpty::EMPTY_VALUE => 'Поле с email не должно быть пустым!'
+            'login'    => [
+                NotEmpty::EMPTY_VALUE => 'Запоните поле с логином!'
+            ],
+            'password' => [
+                Required::NON_EXISTENT_KEY => 'Введите пароль!',
             ],
         ]);
 
         return $validator;
+    }
+
+    public function login($user)
+    {
+        $admin = [
+            'login'    => 'admin',
+            'password' => '123'
+        ];
+
+        $diff = array_diff($admin, $user);
+        if ($diff) {
+            return false;
+        }
+
+        $session = Session::getInstance();
+        $session->admin = true;
+
+        return true;
+    }
+
+    public function logout()
+    {
+        $session = Session::getInstance();
+        unset($session->admin);
     }
 }

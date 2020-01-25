@@ -39,7 +39,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    @if(true)
+                    @if(!auth())
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/login') }}">Войти</a>
                         </li>
@@ -56,7 +56,7 @@
                                     Выйти
                                 </a>
 
-                                <form id="logout-form" action="" method="POST"
+                                <form id="logout-form" action="{{ url('/logout') }}" method="POST"
                                       style="display: none;">
                                     @csrf
                                 </form>

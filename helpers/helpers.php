@@ -122,6 +122,16 @@ if (!function_exists('back')) {
     }
 }
 
+
+if (!function_exists('redirect')) {
+    function redirect($uri)
+    {
+        $url = url($uri);
+        header('Location: ' . $url);
+    }
+}
+
+
 if (!function_exists('old')) {
     function old($input, $default = "")
     {
@@ -150,22 +160,31 @@ if (!function_exists('errors')) {
     }
 }
 
-if (!function_exists('setSuccess')) {
-    function setSuccess(string $message)
+if (!function_exists('set_success')) {
+    function set_success(string $message)
     {
         $session = Session::getInstance();
         $session->success = $message;
     }
 }
 
-if (!function_exists('getSuccess')) {
-    function getSuccess()
+if (!function_exists('get_success')) {
+    function get_success()
     {
         $session = Session::getInstance();
         if ($success = $session->success) {
             unset($session->success);
             return $success;
         }
+        return false;
+    }
+}
+
+if (!function_exists('auth'))
+{
+    function auth() {
+        $session = Session::getInstance();
+        if ($session->admin) return true;
         return false;
     }
 }
