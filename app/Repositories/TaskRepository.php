@@ -28,15 +28,8 @@ class TaskRepository extends BaseRepository
      * @param string $direction
      * @return \Illuminate\Support\Collection
      */
-    public function getAllWithOrder($perPage = 3, $currentPage = 1, $orderBy = 'created_at', $direction = 'desc')
+    public function getAllWithOrder($perPage = 3, $currentPage = 1, $orderBy = 'performed', $direction = 'asc')
     {
-        $orderBy = $orderBy ?: 'created_at';
-        if ($orderBy == 'created_at' && $direction == "") {
-            $direction = 'desc';
-        } else {
-            $direction = $direction ?: 'asc';
-        }
-
         $offset = ($currentPage - 1) * $perPage;
 
         $tasks = $this->model

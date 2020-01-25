@@ -20,12 +20,16 @@ class TaskService
 
     public function getOrderFromRequest()
     {
-        $orderBy = $_POST['orderBy'] ?? $_GET['orderBy'] ?? "";
+        $orderBy = $_GET['orderBy'] ?? "";
         if ($orderBy == "") {
             $direction = "";
         } else {
-            $direction = strtolower($_POST['orderBy'] ?? $_GET['direction'] ?? "");
+            $direction = strtolower($_GET['direction'] ?? "");
         }
+
+        $orderBy = $orderBy ?: 'performed';
+        $direction = $direction ?: 'asc';
+
         $order = [
             'orderBy'   => $orderBy,
             'direction' => $direction,
@@ -43,11 +47,37 @@ class TaskService
 
     public function getPageFromRequest()
     {
-        $page = (int)($_GET['page'] ?? 1);
+        $isNotHavePage = !isset($_GET['page']) ||
+            (isset($_GET['page']) && $_GET['page'] == "");
+
+        if ($isNotHavePage)
+            return 1;
+
+        $page = (int)$_GET['page'];
+
         if (strval($page) != $_GET['page'])
             return false;
 
         return $page;
+    }
+
+    public function getOrderForPaginate($inputOrder = [])
+    {
+        $order = $inputOrder ?: $this->getOrderFromRequest();
+
+        $order['orderBy'] = $order['orderBy'] != 'performed' ? $order['orderBy'] : "";
+        $order['direction'] = $order['direction'] != 'asc' ? $order['direction'] : "";
+
+        return $order;
+    }
+
+    public function getOrdersForSelect()
+    {
+        return [
+            'name'      => 'По имени',
+            'email'     => 'По email',
+            'performed' => 'По статусу'
+        ];
     }
 
 }

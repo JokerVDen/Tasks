@@ -38,6 +38,9 @@ class MainController extends CoreController
         $perPage = 3;
 
         $currentPage = $this->taskService->getPageFromRequest();
+        if(!$currentPage) {
+            return abort();
+        }
 
         $order = $this->taskService->getOrderFromRequest();
         if(!$order) {
@@ -48,14 +51,19 @@ class MainController extends CoreController
         if(!$paginate) {
             return abort();
         }
+        $orderForPaginate = $this->taskService->getOrderForPaginate($order);
 
         $tasks = $this->taskRepository->getAllWithOrder($perPage, $currentPage, $order['orderBy'], $order['direction']);
+
+        $ordersForSelect = $this->taskService->getOrdersForSelect();
 
         return view('main.index', compact([
             'perPage',
             'tasks',
             'paginate',
-            'order'
+            'order',
+            'orderForPaginate',
+            'ordersForSelect',
         ]));
     }
 }
