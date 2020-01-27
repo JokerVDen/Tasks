@@ -56,13 +56,8 @@ class LoginService
      */
     public function login($user)
     {
-        $admin = [
-            'login'    => 'admin',
-            'password' => '123'
-        ];
-
-        $diff = array_diff($admin, $user);
-        if ($diff) {
+        $isAdmin = $this->isAdmin($user);
+        if (!$isAdmin) {
             return false;
         }
 
@@ -79,5 +74,18 @@ class LoginService
     {
         $session = Session::getInstance();
         unset($session->admin);
+    }
+
+    private function isAdmin($user)
+    {
+        $admin = [
+            'login'    => 'admin',
+            'password' => '123'
+        ];
+
+        $sameLogin = (mb_strtolower($user['login']) == mb_strtolower($admin['login']));
+        $samePassword =  ($user['password'] == $admin['password']);
+
+        return $sameLogin && $samePassword;
     }
 }
